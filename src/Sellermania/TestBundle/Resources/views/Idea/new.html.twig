@@ -1,0 +1,16 @@
+{% extends "SellermaniaTestBundle::layout.html.twig" %}
+
+{% block page_content %}
+    <h2>Idea creation</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" class="btn btn-success"/>
+    {{ form_end(form) }}
+
+    <ul class="list-inline">
+        <li>
+            <a href="{{ path('idea_list') }}" class="btn btn-default">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

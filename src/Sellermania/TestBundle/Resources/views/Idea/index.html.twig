@@ -1,0 +1,48 @@
+{% extends "SellermaniaTestBundle::layout.html.twig" %}
+
+{% block page_content %}
+    <h2>Idea list</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for idea in ideas %}
+            <tr>
+                <td><a href="{{ path('show_idea', { 'id': idea.id }) }}">{{ idea.id }}</a></td>
+                <td>{{ idea.title }}</td>
+                <td>{{ idea.content }}</td>
+                <td>{% if idea.date %}{{ idea.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ idea.author }}</td>
+                <td>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ path('show_idea', { 'id': idea.id }) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"> show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('edit_idea', { 'id': idea.id }) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"> edit</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('delete_idea', { 'id': idea.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"> delete</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('new_idea') }}" class="btn btn-info"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

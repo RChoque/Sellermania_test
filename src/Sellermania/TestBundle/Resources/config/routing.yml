@@ -1,0 +1,24 @@
+idea_list:
+    path:     /
+    defaults: { _controller: "SellermaniaTestBundle:Idea:index" }
+    methods:  GET
+
+show_idea:
+    path:     /{id}/show
+    defaults: { _controller: "SellermaniaTestBundle:Idea:show" }
+    methods:  GET
+
+new_idea:
+    pattern: /idea/new
+    defaults: { _controller: "SellermaniaTestBundle:Idea:new" }
+    methods:  [GET, POST]
+
+edit_idea:
+    path:     /{id}/edit
+    defaults: { _controller: "SellermaniaTestBundle:Idea:edit" }
+    methods:  [GET, POST]
+
+delete_idea:
+    path:     /{id}/delete
+    defaults: { _controller: "SellermaniaTestBundle:Idea:delete" }
+    methods:  DELETE

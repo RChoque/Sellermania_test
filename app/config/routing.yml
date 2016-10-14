@@ -1,8 +1,4 @@
 sellermania_test:
-    resource: "@SellermaniaTestBundle/Controller/"
-    type:     annotation
+    resource: "@SellermaniaTestBundle/Resources/config/routing.yml"
     prefix:   /
 
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
