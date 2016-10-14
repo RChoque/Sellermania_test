@@ -25,6 +25,4 @@ security:
             http_basic: ~
 
     access_control:
-        - { path: ^/idea/new, roles: ROLE_ADMIN }
-        - { path: ^/idea/edit, roles: ROLE_ADMIN }
-        - { path: ^/idea/delete, roles: ROLE_ADMIN }
+        - { path: ^/idea/*, roles: ROLE_ADMIN }

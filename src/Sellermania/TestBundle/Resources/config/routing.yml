@@ -4,7 +4,7 @@ idea_list:
     methods:  GET
 
 show_idea:
-    path:     /{id}/show
+    path:     /idea/{id}/show
     defaults: { _controller: "SellermaniaTestBundle:Idea:show" }
     methods:  GET
 
@@ -14,11 +14,11 @@ new_idea:
     methods:  [GET, POST]
 
 edit_idea:
-    path:     /{id}/edit
+    path:     /idea/{id}/edit
     defaults: { _controller: "SellermaniaTestBundle:Idea:edit" }
     methods:  [GET, POST]
 
 delete_idea:
-    path:     /{id}/delete
+    path:     /idea/{id}/delete
     defaults: { _controller: "SellermaniaTestBundle:Idea:delete" }
     methods:  DELETE
