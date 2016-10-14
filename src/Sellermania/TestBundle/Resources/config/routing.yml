@@ -9,7 +9,7 @@ show_idea:
     methods:  GET
 
 new_idea:
-    pattern: /idea/new
+    path:     /idea/new
     defaults: { _controller: "SellermaniaTestBundle:Idea:new" }
     methods:  [GET, POST]
 

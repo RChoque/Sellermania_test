@@ -3,53 +3,76 @@
 namespace Sellermania\TestBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Sellermania\TestBundle\Tests\AbstractTestTools;
+use Sellermania\TestBundle\Entity\Idea;
 
-class IdeaControllerTest extends WebTestCase
+class IdeaControllerTest extends AbstractTestTools
 {
-    /*
-    public function testCompleteScenario()
-    {
-        // Create a new client to browse the application
-        $client = static::createClient();
+       
 
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/idea/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /idea/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'sellermania_testbundle_idea[field_name]'  => 'Test',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Update')->form(array(
-            'sellermania_testbundle_idea[field_name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
-
-        // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+    public function setUp(){
+        $this->loadFixtures(['Sellermania\TestBundle\DataFixtures\ORM\LoadData']);
     }
 
-    */
+    public function testCreate(){
+        $client = $this->getLoggedinClient();
+        $crawler = $client->request('GET', '/idea/new');
+        $this->assertContains("Idea creation", $client->getResponse()->getContent());
+        $button = $crawler->selectButton('create');
+        $form = $button->form();
+
+        // set some values
+        $form['sellermania_idea[title]'] = "Test Idea 2";
+        $form['sellermania_idea[content]'] = "Content test idea 2 : Lorem Ipsum";
+        $form['sellermania_idea[author]'] = "Test";
+
+        $client->submit($form);
+        $client->followRedirect();
+
+        $this->defaultAsserts($client);
+
+        $this->assertContains("Id", $client->getResponse()->getContent());
+
+    }
+
+    public function testEdit(){
+        $client = $this->getLoggedinClient();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+        $ideas = $em->getRepository('SellermaniaTestBundle:Idea')->findAll();
+        $idea = $ideas[0];
+
+        $crawler = $client->request('GET', 'idea/'.$idea->getId().'/edit');
+        $this->assertContains("Idea edit", $client->getResponse()->getContent());
+        $button = $crawler->selectButton('Edit');
+        $form = $button->form();
+
+        // set some values
+        $form['sellermania_idea[content]'] = "Modified content test idea 1 : Lorem Ipsum";
+
+        $client->submit($form);
+        $client->followRedirect();
+
+        $this->defaultAsserts($client);
+
+        $this->assertContains("Id", $client->getResponse()->getContent());
+
+    }
+
+    public function testDelete(){
+        $client = $this->getLoggedinClient();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+        $ideas = $em->getRepository('SellermaniaTestBundle:Idea')->findAll();
+        $idea = $ideas[0];
+
+        $crawler = $client->request('GET', 'idea/'.$idea->getId().'/edit');
+        $this->assertContains("Idea edit", $client->getResponse()->getContent());
+        $button = $crawler->selectButton('Delete');
+        $form = $button->form();
+        $client->submit($form);
+        $client->followRedirect();
+
+        $this->defaultAsserts($client);
+
+        $this->assertContains("Idea list", $client->getResponse()->getContent());
+    }
 }

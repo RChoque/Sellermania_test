@@ -5,6 +5,7 @@ namespace Sellermania\TestBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class IdeaType extends AbstractType
 {
@@ -16,7 +17,7 @@ class IdeaType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content', 'textarea')
+            ->add('content', TextareaType::class)
             ->add('author')
         ;
     }
@@ -29,5 +30,10 @@ class IdeaType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Sellermania\TestBundle\Entity\Idea'
         ));
+    }
+
+    public function getName()
+    {
+        return 'sellermania_idea';
     }
 }
