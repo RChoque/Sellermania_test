@@ -5,12 +5,22 @@ namespace Sellermania\TestBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Sellermania\TestBundle\Tests\AbstractTestTools;
 use Sellermania\TestBundle\Entity\Idea;
+use Doctrine\ORM\Tools\SchemaTool;
 
 class IdeaControllerTest extends AbstractTestTools
 {
        
 
     public function setUp(){
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        if (!isset($metadatas)) {
+            $metadatas = $em->getMetadataFactory()->getAllMetadata();
+        }
+        $schemaTool = new SchemaTool($em);
+        $schemaTool->dropDatabase();
+        if (!empty($metadatas)) {
+            $schemaTool->createSchema($metadatas);
+        }
         $this->loadFixtures(['Sellermania\TestBundle\DataFixtures\ORM\LoadData']);
     }
 
@@ -18,7 +28,7 @@ class IdeaControllerTest extends AbstractTestTools
         $client = $this->getLoggedinClient();
         $crawler = $client->request('GET', '/idea/new');
         $this->assertContains("Idea creation", $client->getResponse()->getContent());
-        $button = $crawler->selectButton('create');
+        $button = $crawler->selectButton('Create');
         $form = $button->form();
 
         // set some values

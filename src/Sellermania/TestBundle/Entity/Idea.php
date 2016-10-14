@@ -50,6 +50,11 @@ class Idea
     private $author;
 
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="idea", cascade={"remove", "persist"})
+     */
+    private $comments;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -159,5 +164,37 @@ class Idea
         return $this->author;
     }
 
-    
+    /**
+     * Add comment
+     *
+     * @param \Sellermania\TestBundle\Entity\Comment $comment
+     *
+     * @return Idea
+     */
+    public function addComment(\Sellermania\TestBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \Sellermania\TestBundle\Entity\Comment $comment
+     */
+    public function removeComment(\Sellermania\TestBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comment
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

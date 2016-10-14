@@ -13,6 +13,11 @@ new_idea:
     defaults: { _controller: "SellermaniaTestBundle:Idea:new" }
     methods:  [GET, POST]
 
+comment_new:
+    path:     /idea/{id}/add_comment
+    defaults: { _controller: "SellermaniaTestBundle:Comment:new" }
+    methods:  [GET, POST]
+
 edit_idea:
     path:     /idea/{id}/edit
     defaults: { _controller: "SellermaniaTestBundle:Idea:edit" }

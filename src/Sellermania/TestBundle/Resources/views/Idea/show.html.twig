@@ -25,12 +25,25 @@
                 <th>Author</th>
                 <td>{{ idea.author }}</td>
             </tr>
+            <tr>
+                <th>Comments</th>
+                <td>
+                    <ul class="list-unstyled">
+                        {% for comment in idea.comments %}
+                        <li>{{ comment.content }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 
     <ul class="list-inline">
         <li>
             <a href="{{ path('idea_list') }}" class="btn btn-default">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('comment_new', { 'id': idea.id }) }}" class="btn btn-info"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"> add comment</a>
         </li>
         <li>
             <a href="{{ path('edit_idea', { 'id': idea.id }) }}" class="btn btn-warning">Edit</a>
