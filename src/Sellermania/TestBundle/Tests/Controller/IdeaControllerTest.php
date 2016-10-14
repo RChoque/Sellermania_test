@@ -68,6 +68,29 @@ class IdeaControllerTest extends AbstractTestTools
 
     }
 
+    public function testAddComment(){
+        $client = $this->getLoggedinClient();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+        $ideas = $em->getRepository('SellermaniaTestBundle:Idea')->findAll();
+        $idea = $ideas[0];
+
+        $crawler = $client->request('GET', 'idea/'.$idea->getId().'/add_comment');
+        $this->assertContains("Add comment for idea", $client->getResponse()->getContent());
+        $button = $crawler->selectButton('Create');
+        $form = $button->form();
+
+        // set some values
+        $form['sellermania_comment[content]'] = "comment test : Lorem Ipsum";
+
+        $client->submit($form);
+        $client->followRedirect();
+
+        $this->defaultAsserts($client);
+
+        $this->assertContains("Id", $client->getResponse()->getContent());
+
+    }
+
     public function testDelete(){
         $client = $this->getLoggedinClient();
         $em = $client->getContainer()->get('doctrine')->getManager();

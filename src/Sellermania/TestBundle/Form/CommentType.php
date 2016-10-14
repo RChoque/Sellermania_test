@@ -27,4 +27,9 @@ class CommentType extends AbstractType
             'data_class' => 'Sellermania\TestBundle\Entity\Comment'
         ));
     }
+
+    public function getName()
+    {
+        return 'sellermania_comment';
+    }
 }
