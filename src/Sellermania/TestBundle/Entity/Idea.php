@@ -55,6 +55,11 @@ class Idea
     private $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy="idea", cascade={"remove", "persist"})
+     */
+    private $votes;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -196,5 +201,48 @@ class Idea
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add vote
+     *
+     * @param \Sellermania\TestBundle\Entity\Vote $vote
+     *
+     * @return Idea
+     */
+    public function addVote(\Sellermania\TestBundle\Entity\vote $vote)
+    {
+        $this->votes[] = $vote;
+
+        return $this;
+    }
+
+    /**
+     * Remove vote
+     *
+     * @param \Sellermania\TestBundle\Entity\Vote $vote
+     */
+    public function removeVote(\Sellermania\TestBundle\Entity\vote $vote)
+    {
+        $this->votes->removeElement($vote);
+    }
+
+    /**
+     * Get vote
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    public function getPopularity()
+    {
+        $popularity = 0;
+        foreach ($this->getVotes() as $vote) {
+            $popularity += $vote->getValue();
+        }
+        return $popularity;
     }
 }

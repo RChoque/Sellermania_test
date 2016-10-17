@@ -4,7 +4,6 @@ namespace Sellermania\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Sellermania\TestBundle\Entity\Comment;
 use Sellermania\TestBundle\Form\CommentType;
 use Sellermania\TestBundle\Entity\Idea;

@@ -1,0 +1,53 @@
+{% extends "SellermaniaTestBundle::layout.html.twig" %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+        '@SellermaniaTestBundle/Resources/public/js/jquery.sortelements.js'
+        '@SellermaniaTestBundle/Resources/public/js/jquery.bdt.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        'bundles/sellermaniatest/css/font-awesome.css'
+        'bundles/sellermaniatest/css/jquery.bdt.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block page_content %}
+    <h2>Idea list</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('new_idea') }}" class="btn btn-info">Create a new entry</a>
+        </li>
+    </ul>
+
+    <script>
+    $(document).ready( function () {
+        $('#bootstrap-table').bdt();
+    });
+    </script>
+{% endblock %}

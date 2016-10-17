@@ -1,5 +1,10 @@
-idea_list:
+home:
     path:     /
+    defaults: { _controller: "SellermaniaTestBundle:Home:index" }
+    methods:  GET
+
+idea_list:
+    path:     /idea/list
     defaults: { _controller: "SellermaniaTestBundle:Idea:index" }
     methods:  GET
 
@@ -16,6 +21,11 @@ new_idea:
 comment_new:
     path:     /idea/{id}/add_comment
     defaults: { _controller: "SellermaniaTestBundle:Comment:new" }
+    methods:  [GET, POST]
+
+vote_new:
+    path:     /idea/{id}/add_vote/{value}
+    defaults: { _controller: "SellermaniaTestBundle:Vote:new" }
     methods:  [GET, POST]
 
 edit_idea:

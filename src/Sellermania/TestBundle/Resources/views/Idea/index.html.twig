@@ -9,8 +9,10 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
+                <th>Popularity</th>
                 <th>Date</th>
                 <th>Author</th>
+                <th>Vote</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -20,8 +22,19 @@
                 <td><a href="{{ path('show_idea', { 'id': idea.id }) }}">{{ idea.id }}</a></td>
                 <td>{{ idea.title }}</td>
                 <td>{{ idea.content }}</td>
-                <td>{% if idea.date %}{{ idea.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ idea.popularity }}</td>
+                <td>{% if idea.date %}{{ idea.date|date('d/m/Y H:i:s') }}{% endif %}</td>
                 <td>{{ idea.author }}</td>
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{{ path('vote_new', { 'id': idea.id, 'value':1 }) }}" class="vote"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('vote_new', { 'id': idea.id, 'value':-1 }) }}" class="vote"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></a>
+                        </li>
+                    </ul>
+                </td>
                 <td>
                     <ul class="list-unstyled">
                         <li>
@@ -48,4 +61,15 @@
             <a href="{{ path('new_idea') }}" class="btn btn-info">Create a new entry</a>
         </li>
     </ul>
+
+    <script>
+    $(document).ready( function () {
+        $('.table').on("click", ".vote", function(event){
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('href')
+            });
+        });
+    });
+    </script>
 {% endblock %}
