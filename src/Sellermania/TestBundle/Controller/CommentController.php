@@ -40,30 +40,4 @@ class CommentController extends Controller
         ));
     }
 
-    /**
-     * Displays a form to edit an existing Comment entity.
-     *
-     */
-    public function editAction(Request $request, Comment $comment)
-    {
-        $deleteForm = $this->createDeleteForm($comment);
-        $editForm = $this->createForm('Sellermania\TestBundle\Form\CommentType', $comment);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
-
-            return $this->redirectToRoute('comment_edit', array('id' => $comment->getId()));
-        }
-
-        return $this->render('comment/edit.html.twig', array(
-            'comment' => $comment,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-
 }

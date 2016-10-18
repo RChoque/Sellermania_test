@@ -36,15 +36,11 @@ class IdeaController extends Controller
     public function newAction(Request $request)
     {
         $idea = new Idea();
-        $form = $this->createForm('Sellermania\TestBundle\Form\IdeaType', $idea);
-        $form->handleRequest($request);
+        
+        $form = handleForm($request, $idea);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($idea);
-            $em->flush();
-
-            return $this->redirectToRoute('show_idea', array('id' => $idea->getId()));
+        if($form instanceof RedirectResponse){
+            return $form;
         }
 
         return $this->render('SellermaniaTestBundle:Idea:new.html.twig', array(
@@ -74,15 +70,10 @@ class IdeaController extends Controller
     public function editAction(Request $request, Idea $idea)
     {
         $deleteForm = $this->createDeleteForm($idea);
-        $editForm = $this->createForm('Sellermania\TestBundle\Form\IdeaType', $idea);
-        $editForm->handleRequest($request);
+        $editForm = handleForm($request, $idea);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($idea);
-            $em->flush();
-
-            return $this->redirectToRoute('edit_idea', array('id' => $idea->getId()));
+        if($editForm instanceof RedirectResponse){
+            return $editForm;
         }
 
         return $this->render('SellermaniaTestBundle:Idea:edit.html.twig', array(
@@ -90,6 +81,21 @@ class IdeaController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    private function handleForm(Request $request, Idea $idea){
+        $form = $this->createForm('Sellermania\TestBundle\Form\IdeaType', $idea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($idea);
+            $em->flush();
+
+            return $this->redirectToRoute('show_idea', array('id' => $idea->getId()));
+        }
+
+        return $form;
     }
 
     /**

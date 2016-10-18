@@ -31,4 +31,4 @@ edit_idea:
 delete_idea:
     path:     /idea/{id}/delete
     defaults: { _controller: "SellermaniaTestBundle:Idea:delete" }
-    methods:  DELETE
+    methods:  [GET, POST]

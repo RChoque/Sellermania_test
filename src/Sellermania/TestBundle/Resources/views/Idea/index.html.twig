@@ -67,9 +67,20 @@
         $('.table').on("click", ".vote", function(event){
             event.preventDefault();
             $.ajax({
-                url: $(this).attr('href')
+                url: $(this).attr('href'),
+                success: function(data, status, xhttp)
+                {     
+                    if ( data )
+                    {
+                      location.reload();
+                    }
+                    else 
+                    { 
+                        alert("erreur!");
+                    }                      
+                }
             });
-            location.reload(); 
+             
         });
     });
     </script>
