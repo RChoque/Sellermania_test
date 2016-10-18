@@ -3,6 +3,7 @@
 namespace Sellermania\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sellermania\TestBundle\Entity\Idea;
 use Sellermania\TestBundle\Form\IdeaType;
@@ -21,23 +22,11 @@ class IdeaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ideas = $em->getRepository('SellermaniaTestBundle:Idea')->findAll();
+        $ideas = $em->getRepository('SellermaniaTestBundle:Idea')->findAllWithPopularity();
 
         return $this->render('SellermaniaTestBundle:Idea:index.html.twig', array(
             'ideas' => $ideas,
         ));
-    }
-
-    public function listAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $orders = $em->getRepository('SellermaniaTestBundle:Idea')->findAll();
-
-        $data = $this->container->get('serializer')->serialize($orders, 'json');
-        $response = new Response();
-        $response->headers->set('Content-type', 'application/json');
-        $response->setContent($data);
-        return $response;
     }
 
     /**

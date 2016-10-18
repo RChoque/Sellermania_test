@@ -1,10 +1,5 @@
-home:
-    path:     /
-    defaults: { _controller: "SellermaniaTestBundle:Home:index" }
-    methods:  GET
-
 idea_list:
-    path:     /idea/list
+    path:     /
     defaults: { _controller: "SellermaniaTestBundle:Idea:index" }
     methods:  GET
 
